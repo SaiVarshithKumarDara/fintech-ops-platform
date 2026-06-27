@@ -19,8 +19,10 @@ fintech-ops-platform/
 │   ├── build_database.py        # Loads CSVs into a SQLite database
 │   ├── analysis_queries.sql     # 9 core SQL analyses (SLA, failures, anomalies, etc.)
 │   ├── transactions.csv         # Generated dataset (18 columns)
-│   ├── support_tickets.csv      # Generated dataset (18 columns)
-│   └── fintech_ops.db           # SQLite DB built from the CSVs
+│   └── support_tickets.csv      # Generated dataset (18 columns)
+│       # Note: fintech_ops.db is NOT checked into git (keeps repo small).
+│       # app.py automatically falls back to the CSVs if the .db is absent.
+│       # Run `python db/build_database.py` locally to regenerate it.
 ├── app/
 │   ├── app.py                   # Streamlit dashboard (the "Power BI" replacement, free to host)
 │   └── anomaly_detection.py     # IsolationForest + z-score anomaly/priority scoring
@@ -41,7 +43,6 @@ has clustered timeouts, certain agent teams (`Fraud-Risk`, `Tier2-Technical`)
 run slower with more SLA breaches, and CSAT correlates with SLA outcome —
 giving the SQL/Python/dashboard logic real patterns to surface.
 
-
 ## Run locally
 
 ```bash
@@ -58,3 +59,5 @@ python db/build_database.py
 # 3. Launch the dashboard
 streamlit run app/app.py
 ```
+
+---
